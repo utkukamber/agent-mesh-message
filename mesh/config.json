@@ -1,0 +1,92 @@
+{
+  "mesh": {
+    "name": "asyalogic-agent-mesh",
+    "version": "1.0.0",
+    "nats": {
+      "url": "nats://agent-mesh-nats:4222",
+      "cluster": "mesh-cluster"
+    }
+  },
+  "agents": [
+    {
+      "id": "codebot",
+      "name": "Codebot",
+      "container": "oc-ws-utku-gateway",
+      "port": 7000,
+      "bridge": "bridge-codebot",
+      "role": "assistant",
+      "owner": "utku-kamber",
+      "status": "active"
+    },
+    {
+      "id": "nova",
+      "name": "Nova",
+      "container": "novasl-gateway",
+      "port": 7002,
+      "bridge": "bridge-nova",
+      "role": "gchat-bot",
+      "owner": "utku-kamber",
+      "status": "active"
+    },
+    {
+      "id": "kaan",
+      "name": "Kaan Erdem",
+      "container": "kaan-gateway",
+      "port": 7003,
+      "bridge": "bridge-kaan",
+      "role": "mesh-admin",
+      "owner": "utku-kamber",
+      "status": "active"
+    },
+    {
+      "id": "emres",
+      "name": "EmreS",
+      "container": "oc-ps-emres-gateway",
+      "port": 7042,
+      "bridge": "bridge-emres",
+      "role": "guest",
+      "owner": "utku-kamber",
+      "status": "active"
+    }
+  ],
+  "bridges": {
+    "bridge-codebot": {
+      "agent": "codebot",
+      "nats_subject": "mesh.agent.codebot",
+      "connected": true
+    },
+    "bridge-nova": {
+      "agent": "nova",
+      "nats_subject": "mesh.agent.nova",
+      "connected": true
+    },
+    "bridge-kaan": {
+      "agent": "kaan",
+      "nats_subject": "mesh.agent.kaan",
+      "connected": true
+    },
+    "bridge-emres": {
+      "agent": "emres",
+      "nats_subject": "mesh.agent.emres",
+      "connected": false
+    }
+  },
+  "acl": {
+    "admin_agents": [
+      "kaan"
+    ],
+    "kill_switch": {
+      "soft": [
+        "kaan"
+      ],
+      "hard": [
+        "kaan"
+      ],
+      "nuclear": [
+        "utku-kamber"
+      ]
+    }
+  },
+  "created_at": "2026-02-06T14:50:00Z",
+  "created_by": "kaan"
+}
