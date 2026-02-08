@@ -24,6 +24,26 @@
 - **Komut örneği:** `mesh-fx --color red "MESAJ"`
 - **Durum:** ⏳ Beklemede (token işi öncelikli)
 
+### 🤖 mesh-ansible (v0.3)
+- **Tarih:** 2026-02-08
+- **Talep eden:** Utku Bey
+- **Açıklama:** Ansible ile mesh ağı yönetimi
+- **Özellikler:**
+  - Inventory-based agent registry
+  - Template-based bridge deployment
+  - Rolling updates
+  - Ansible Vault ile secret management
+  - Health check playbooks
+- **Yapı:**
+  ```
+  mesh-ansible/
+  ├── inventory/ (production, staging)
+  ├── roles/ (openclaw-gateway, mesh-bridge, agent-persona)
+  ├── playbooks/ (deploy, update, health)
+  └── group_vars/ (Vault encrypted)
+  ```
+- **Durum:** 📋 v0.3 Planlandı
+
 ---
 
 ## Çözülen Sorunlar
