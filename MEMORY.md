@@ -2,7 +2,7 @@
 
 ## TODO / Bekleyen İşler
 
-### 🖥️ Claude Code Bridge (v0.2 Fikri)
+### 🖥️ Claude Code Bridge (v0.2)
 - **Tarih:** 2026-02-08
 - **Talep eden:** Utku Bey
 - **Açıklama:** Agent'lar Claude Code CLI'yi kendi bridge'leri üzerinden kullanabilsin
@@ -10,7 +10,15 @@
   - "Claude Code ile görüşmek istiyorum" dediğinde
   - Pencerede "claude code" olarak görünsün
   - Agent'ın kendi bridge'i üzerinden çalışsın
-- **Durum:** 💡 Fikir (v0.2)
+- **Durum:** 📋 v0.2 Planlandı
+
+### 🌐 Cross-Gateway Routing (v0.2) - KRİTİK
+- **Tarih:** 2026-02-09
+- **Talep eden:** Direktör (bug fix sırasında tespit)
+- **Açıklama:** Farklı container'lardaki agent'lar arası mesh iletişimi
+- **Sorun:** sessions_send sadece aynı gateway içinde çalışıyor
+- **Çözüm:** HTTP bridge + token yönetimi veya NATS pub/sub
+- **Durum:** 📋 v0.2 Planlandı (KRİTİK)
 
 ### 🎨 mesh-fx (Admin Terminal Efektleri)
 - **Tarih:** 2026-02-08
@@ -48,7 +56,11 @@
 
 ## Çözülen Sorunlar
 
-(henüz yok)
+### ✅ Session Routing Bug (2026-02-08)
+- **Sorun:** Mesh mesajları openai:uuid session'larına düşüyordu
+- **Çözüm:** x-openclaw-session-key header + user field eklendi
+- **Kim çözdü:** Kaan (analiz) + Codebot (implement)
+- **Commit:** 50fd78e (mesh-bridge.py)
 
 ---
 
