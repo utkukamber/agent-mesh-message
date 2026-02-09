@@ -1,0 +1,35 @@
+{
+  "hub": {
+    "port": 7100,
+    "auth": {
+      "mode": "token",
+      "hubToken": "mesh-hub-master-token"
+    }
+  },
+  "agents": {
+    "kaan": {
+      "gateway": "http://kaan-gateway:7003",
+      "token": "kaan-mesh-admin-token"
+    },
+    "gunes": {
+      "gateway": "http://gunes-gateway:7004",
+      "token": "GUNES_TOKEN_BURAYA"
+    },
+    "nova": {
+      "gateway": "http://novasl-gateway:7002",
+      "token": "NOVA_TOKEN_BURAYA"
+    },
+    "codebot": {
+      "gateway": "http://oc-ws-utku-gateway:7000",
+      "token": "CODEBOT_TOKEN_BURAYA"
+    },
+    "queenb": {
+      "gateway": "http://openclaw-gateway-2:28789",
+      "token": "QUEENB_TOKEN_BURAYA"
+    },
+    "emres": {
+      "gateway": "http://oc-ps-emres-gateway:7042",
+      "token": "EMRES_TOKEN_BURAYA"
+    }
+  }
+}

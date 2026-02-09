@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mesh-hub:
+    build: .
+    container_name: mesh-hub
+    ports:
+      - "7100:7100"
+    environment:
+      - MESH_HUB_PORT=7100
+      - MESH_HUB_TOKEN=${MESH_HUB_TOKEN:-mesh-hub-master-token}
+      - MESH_HUB_CONFIG=/app/config.json
+    volumes:
+      - ./config.json:/app/config.json:ro
+    networks:
+      - openclaw-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7100/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  openclaw-network:
+    external: true
