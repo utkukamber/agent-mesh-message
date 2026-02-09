@@ -129,7 +129,7 @@
 | deploy-manager | devops | devops | Docker container management |
 | vps-advisor | infrastructure | devops | VPS advisory, remote management |
 | container-local-expert | analysis | devops | Container analysis |
-| agent-mesh-bridge | automation | development | Mesh bridge development |
+| agent-mesh-bridge | automation | development | Mesh bridge development (**→ Kaan'a bağlı**) |
 | claude-code-api-manager | development | development | FastAPI development |
 | doc-helper | assistant | assistant | Documentation assistance |
 
@@ -172,6 +172,12 @@
 | Agent Monitoring | Tüm mesh agent'larını izleme |
 | Emergency Response | Acil durum müdahalesi |
 | **Raporlama** | Güneş Ersoy (Department Manager) |
+
+#### Kaan'ın Alt Agent'ları
+
+| Agent | Rol | Sorumluluk |
+|-------|-----|------------|
+| **agent-mesh-bridge** | Mesh Bridge Developer | NATS sidecar geliştirme, bridge deployment, mesh monitoring, rollback yönetimi |
 
 ---
 

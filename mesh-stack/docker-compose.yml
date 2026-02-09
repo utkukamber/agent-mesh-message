@@ -1,0 +1,194 @@
+# Mesh Stack v2 - REALTIME NATS Listeners
+# Agent'ları /v1/chat/completions ile GERÇEKTEN tetikler
+#
+# Deploy: docker-compose up -d --build
+# Logs:   docker-compose logs -f
+
+version: "3.8"
+
+services:
+  # ─────────────────────────────────────────────
+  # NATS Server
+  # ─────────────────────────────────────────────
+  nats:
+    image: nats:2.10-alpine
+    container_name: agent-mesh-nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    command: ["--jetstream", "--store_dir=/data"]
+    volumes:
+      - nats-data:/data
+    networks:
+      - agent-mesh
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ─────────────────────────────────────────────
+  # REALTIME Listener Sidecars
+  # ─────────────────────────────────────────────
+  
+  listener-kaan:
+    build: ./listener
+    container_name: mesh-listener-kaan
+    environment:
+      AGENT_ID: kaan
+      GATEWAY_HOST: kaan-gateway
+      GATEWAY_PORT: "7003"
+      GATEWAY_TOKEN: kaan-mesh-admin-token
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-gunes:
+    build: ./listener
+    container_name: mesh-listener-gunes
+    environment:
+      AGENT_ID: gunes
+      GATEWAY_HOST: gunes-gateway
+      GATEWAY_PORT: "7004"
+      GATEWAY_TOKEN: gunes-token-2026
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-nova:
+    build: ./listener
+    container_name: mesh-listener-nova
+    environment:
+      AGENT_ID: nova
+      GATEWAY_HOST: novasl-gateway
+      GATEWAY_PORT: "7002"
+      GATEWAY_TOKEN: nova-token-2026
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-codebot:
+    build: ./listener
+    container_name: mesh-listener-codebot
+    environment:
+      AGENT_ID: codebot
+      GATEWAY_HOST: oc-ws-utku-gateway
+      GATEWAY_PORT: "7000"
+      GATEWAY_TOKEN: kaan-mesh-admin-token
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-luna:
+    build: ./listener
+    container_name: mesh-listener-luna
+    environment:
+      AGENT_ID: luna
+      GATEWAY_HOST: luna-gateway
+      GATEWAY_PORT: "7005"
+      GATEWAY_TOKEN: luna-token-2026
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-so:
+    build: ./listener
+    container_name: mesh-listener-so
+    environment:
+      AGENT_ID: so
+      GATEWAY_HOST: so-gateway
+      GATEWAY_PORT: "7006"
+      GATEWAY_TOKEN: so-token-2026
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-emres:
+    build: ./listener
+    container_name: mesh-listener-emres
+    environment:
+      AGENT_ID: emres
+      GATEWAY_HOST: oc-ps-emres-gateway
+      GATEWAY_PORT: "7042"
+      GATEWAY_TOKEN: emres-token-2026
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  listener-queenb:
+    build: ./listener
+    container_name: mesh-listener-queenb
+    environment:
+      AGENT_ID: queenb
+      GATEWAY_HOST: openclaw-gateway-2
+      GATEWAY_PORT: "28789"
+      GATEWAY_TOKEN: 3dd4d4a6ff8408ebe04900578295a2d949b171f92eb196b6
+      NATS_URL: nats://agent-mesh-nats:4222
+      MODEL: anthropic/claude-opus-4-5
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────
+  # Mesh CLI
+  # ─────────────────────────────────────────────
+  mesh-cli:
+    build: ./cli
+    container_name: mesh-cli
+    environment:
+      NATS_URL: nats://agent-mesh-nats:4222
+      SENDER_ID: mesh-cli
+    networks:
+      - agent-mesh
+    depends_on:
+      nats:
+        condition: service_healthy
+    command: ["tail", "-f", "/dev/null"]
+    restart: unless-stopped
+
+networks:
+  agent-mesh:
+    external: true
+    name: agent-mesh
+
+volumes:
+  nats-data:

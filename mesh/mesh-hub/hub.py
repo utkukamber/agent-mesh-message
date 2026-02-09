@@ -143,7 +143,7 @@ async def send_to_agent(
     if not token:
         return {"success": False, "error": f"No token for agent: {agent_id}"}
     
-    url = f"{gateway_url}/v1/chat/completions"
+    url = f"{gateway_url}/hooks/wake"
     
     headers = {
         "Content-Type": "application/json",
