@@ -156,7 +156,7 @@ curl -X POST http://<container>:<port>/hooks/wake \
 |-------|---------|----------|
 | `from` | ✅ | Gönderen agent ID |
 | `to` | ✅ | Alıcı agent ID |
-| `type` | ✅ | "message" (standart) veya "response" (yanıt) |
+| `type` | ✅ | "request" (standart) veya "response" (yanıt) - ⚠️ "message" DEĞİL! |
 | `message` | ✅ | Mesaj içeriği |
 | `reply_to` | ⚠️ | type=response ise ZORUNLU, original message ID |
 
