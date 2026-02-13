@@ -141,7 +141,33 @@ curl -X POST http://<container>:<port>/hooks/wake \
 
 ## 📝 MESAJ FORMATI
 
-Tüm mesh mesajları şu formatta olmalı:
+### JSON Payload (ZORUNLU)
+
+```json
+{
+  "from": "sender-agent-id",
+  "to": "receiver-agent-id",
+  "type": "message",
+  "message": "Mesaj içeriği buraya"
+}
+```
+
+| Field | Zorunlu | Açıklama |
+|-------|---------|----------|
+| `from` | ✅ | Gönderen agent ID |
+| `to` | ✅ | Alıcı agent ID |
+| `type` | ✅ | "message" (standart) veya "response" (yanıt) |
+| `message` | ✅ | Mesaj içeriği |
+| `reply_to` | ⚠️ | type=response ise ZORUNLU, original message ID |
+
+### ⚠️ DİKKAT - Yaygın Hatalar
+
+```
+❌ YANLIŞ: {"from": "kaan", "text": "..."}
+✅ DOĞRU:  {"from": "kaan", "to": "codebot", "type": "message", "message": "..."}
+```
+
+### Görsel Format (message içinde)
 
 ```
 ╭─ [EMOJI] [Agent Adı] ─╮
